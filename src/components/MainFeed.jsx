@@ -14,15 +14,14 @@ class MainFeed extends React.Component {
   async getTweets() {
     const tweets = await getTweets();
     this.setState({ tweets: tweets.data.tweets });
-    await this.setState({ loading: false });
+    this.setState({ loading: false });
   }
 
   async handleOnClick(event, input) {
     event.preventDefault();
-    this.setState({ error: null });
-    await this.setState({ loading: true });
+    this.setState({ error: null, loading: true });
     const date = new Date(Date.now()).toISOString();
-    const userName = this.context.name;
+    const userName = this.context.name.name;
     const newTweet = { content: input, userName: userName, date: date };
     try {
       const newTweetData = await postTweet(newTweet);
@@ -32,7 +31,7 @@ class MainFeed extends React.Component {
     } catch (err) {
       this.setState({ error: err.message });
     }
-    await this.setState({ loading: false });
+    this.setState({ loading: false });
   }
 
   componentDidMount() {
