@@ -45,6 +45,10 @@ class InputPost extends React.Component {
                 >
                   The tweet can't contain more then 140 chars.
                 </span>
+              </>
+            )}
+            {this.state.input.length > 140 ||
+              (this.props.loading && (
                 <Button
                   disabled={true}
                   inline="true"
@@ -56,10 +60,9 @@ class InputPost extends React.Component {
                 >
                   Tweet
                 </Button>
-              </>
-            )}
+              ))}
 
-            {this.state.input.length <= 140 && (
+            {this.state.input.length <= 140 && !this.props.loading && (
               <Button
                 onClick={(event) => {
                   this.props.handleOnClick(event, this.state.input);
