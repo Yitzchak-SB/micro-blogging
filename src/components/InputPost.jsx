@@ -8,10 +8,6 @@ class InputPost extends React.Component {
   }
 
   render() {
-    let charLimit = false;
-    if (this.state.input.length > 140) {
-      charLimit = true;
-    }
     return (
       <Card
         className="border border-white rounded m-1"
@@ -36,7 +32,7 @@ class InputPost extends React.Component {
               />
             </Form.Group>
 
-            {charLimit && (
+            {this.state.input.length > 140 && (
               <>
                 <span
                   className="rounded float-left"
@@ -63,7 +59,7 @@ class InputPost extends React.Component {
               </>
             )}
 
-            {!charLimit && (
+            {this.state.input.length <= 140 && (
               <Button
                 onClick={(event) => {
                   this.props.handleOnClick(event, this.state.input);

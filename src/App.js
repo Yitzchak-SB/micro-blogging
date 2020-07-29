@@ -2,7 +2,7 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import "./App.css";
 import MainFeed from "./components/MainFeed";
-import userContext from "./components/data/userContext";
+import UserContext from "./components/data/UserContext";
 
 function App() {
   return (
@@ -10,9 +10,9 @@ function App() {
       fluid={true}
       style={{ backgroundColor: "#15202B", minHeight: "100vh" }}
     >
-      <userContext.Provider value={{ name: "Omer" }}>
+      <UserContext.Provider value={{ name: "Omer" }}>
         <MainFeed />
-      </userContext.Provider>
+      </UserContext.Provider>
     </Container>
   );
 }

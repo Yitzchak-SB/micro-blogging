@@ -2,8 +2,9 @@ import React from "react";
 import InputPost from "./InputPost";
 import { PostFeed } from "./PostFeed";
 import Tweet from "./data/Tweet";
-import userContext from "./data/userContext";
+import UserContext from "./data/UserContext";
 import { Row, Col } from "react-bootstrap";
+import { getTweets, postTweet } from "../lib/getTweets";
 
 class MainFeed extends React.Component {
   constructor(props) {
@@ -15,14 +16,12 @@ class MainFeed extends React.Component {
     event.preventDefault();
     const userName = this.context.name;
     const newTweet = new Tweet(input, userName);
-    console.log(newTweet);
     this.setState((state) => {
       return { tweets: [...state.tweets, newTweet] };
     });
   }
 
   render() {
-    console.log(this.state.tweets);
     return (
       <>
         <Row>
@@ -46,5 +45,5 @@ class MainFeed extends React.Component {
   }
 }
 
-MainFeed.contextType = userContext;
+MainFeed.contextType = UserContext;
 export default MainFeed;
