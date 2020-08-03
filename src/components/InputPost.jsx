@@ -8,24 +8,25 @@ class InputPost extends React.Component {
   }
 
   render() {
+    const { checked } = this.props;
     return (
       <Card
-        className="border border-white rounded m-1"
-        style={{ backgroundColor: "#15202B" }}
+        className={`border  rounded m-1 ${
+          checked ? "all-tweets border-white" : "my-tweets border-dark"
+        }`}
       >
         <Card.Body>
           <Form>
             <Form.Group>
               <Form.Control
-                className="text-white"
                 as="textarea"
                 value={this.state.input}
                 onChange={(event) => {
                   this.setState({ input: event.target.value });
                 }}
+                className={`${checked ? "all-tweets" : "my-tweets"}`}
                 style={{
                   height: 180,
-                  backgroundColor: "#15202B",
                   border: "none",
                   resize: "none",
                 }}

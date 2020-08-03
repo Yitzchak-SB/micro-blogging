@@ -1,0 +1,13 @@
+ul {
+  list-style-type: none;
+}
+
+.all-tweets {
+  background-color: #15202b;
+  color: white;
+}
+
+.my-tweets {
+  background-color: #d1e3bc;
+  color: #15202b;
+}

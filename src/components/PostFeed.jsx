@@ -32,9 +32,22 @@ class PostFeed extends React.Component {
     return result;
   }
 
+  sortData(data) {
+    if (this.props.checked) {
+      return this.buildPostFeed(data);
+    } else {
+      const currentUserId = this.context.user.userId;
+      const userTweets = {};
+      for (let key in data) {
+        if (data[key].userId === currentUserId) userTweets[key] = data[key];
+      }
+      return this.buildPostFeed(userTweets);
+    }
+  }
+
   render() {
     if (this.context.tweets && this.props.users) {
-      const tweets = this.buildPostFeed(this.context.tweets);
+      const tweets = this.sortData(this.context.tweets);
       return <ul>{tweets}</ul>;
     }
     return <></>;

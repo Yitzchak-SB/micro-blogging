@@ -5,11 +5,12 @@ import UserContext from "./data/UserContext";
 import { FirebaseContext } from "./Firebase";
 import { Row, Col } from "react-bootstrap";
 import nextId from "react-id-generator";
+import TweetButton from "./TweetButton";
 
 class MainFeed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, error: null, interval: null, users: null };
+    this.state = { loading: true, error: null, users: null };
   }
 
   writeTweet(tweet) {
@@ -31,11 +32,10 @@ class MainFeed extends React.Component {
     this.setState({ loading: false });
   }
 
-  async handleOnClick(event, input) {
+  handleOnClick(event, input) {
     event.preventDefault();
     this.setState({ error: null, loading: true });
     const date = new Date(Date.now()).toISOString();
-    console.log(this.context.tweets);
     const newTweet = {
       content: input,
       userId: this.context.user.userId,
@@ -68,6 +68,7 @@ class MainFeed extends React.Component {
             <ul>
               <li key="0">
                 <InputPost
+                  checked={this.props.checked}
                   loading={this.state.loading}
                   handleOnClick={(event, input) =>
                     this.handleOnClick(event, input)
@@ -83,9 +84,21 @@ class MainFeed extends React.Component {
                 {this.state.error && (
                   <p className="text-white">{this.state.error}</p>
                 )}
+                <TweetButton
+                  setChecked={() => {
+                    this.props.setChecked();
+                  }}
+                  checked={this.props.checked}
+                />
+              </li>
+              <li key="2">
                 <FirebaseContext.Consumer>
                   {(firebase) => (
-                    <PostFeed users={this.state.users} firebase={firebase} />
+                    <PostFeed
+                      checked={this.props.checked}
+                      users={this.state.users}
+                      firebase={firebase}
+                    />
                   )}
                 </FirebaseContext.Consumer>
               </li>

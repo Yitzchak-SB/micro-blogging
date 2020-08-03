@@ -8,11 +8,17 @@ import { FirebaseContext } from "./components/Firebase";
 import UserContext from "./components/data/UserContext";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
+import "./App.css";
 
 class AppBase extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: null, tweets: null };
+    this.state = { user: null, tweets: null, checked: true };
+  }
+
+  setChecked() {
+    if (this.state.checked) this.setState({ checked: false });
+    else this.setState({ checked: true });
   }
 
   componentDidMount() {
@@ -40,10 +46,12 @@ class AppBase extends React.Component {
   }
 
   render() {
+    const { checked } = this.state;
     return (
       <Container
+        className={`${checked ? "all-tweets" : "my-tweets"}`}
         fluid={true}
-        style={{ backgroundColor: "#15202B", minHeight: "100vh" }}
+        style={{ minHeight: "100vh" }}
       >
         <UserContext.Provider
           value={{ user: this.state.user, tweets: this.state.tweets }}
@@ -61,6 +69,10 @@ class AppBase extends React.Component {
                     <FirebaseContext.Consumer>
                       {(firebase) => (
                         <MainFeed
+                          checked={this.state.checked}
+                          setChecked={() => {
+                            this.setChecked();
+                          }}
                           setTweets={(tweets) => {
                             this.setTweets(tweets);
                           }}
