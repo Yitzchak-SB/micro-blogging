@@ -2,18 +2,32 @@ import React from "react";
 import InputPost from "./InputPost";
 import PostFeed from "./PostFeed";
 import UserContext from "./data/UserContext";
+import { FirebaseContext } from "./Firebase";
 import { Row, Col } from "react-bootstrap";
-import { getTweets, postTweet } from "../lib/api";
+import nextId from "react-id-generator";
 
 class MainFeed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { loading: true, error: null, interval: null };
+    this.state = { loading: true, error: null, interval: null, users: null };
   }
 
-  async getTweets() {
-    const tweets = await getTweets();
-    await this.props.setTweets(tweets.data);
+  writeTweet(tweet) {
+    const tweetId = nextId(Date.now());
+    this.props.firebase.tweet(tweetId).set(tweet);
+  }
+
+  getTweets() {
+    let reference = this.props.firebase.tweets();
+    reference.on("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        this.props.setTweets(data);
+        this.setState({ loading: false });
+      } else {
+        this.setState({ loading: false });
+      }
+    });
     this.setState({ loading: false });
   }
 
@@ -21,30 +35,29 @@ class MainFeed extends React.Component {
     event.preventDefault();
     this.setState({ error: null, loading: true });
     const date = new Date(Date.now()).toISOString();
-    const userName = this.context.name;
-    const newTweet = { content: input, userName: userName, date: date };
+    console.log(this.context.tweets);
+    const newTweet = {
+      content: input,
+      userId: this.context.user.userId,
+      date: date,
+      id: nextId(nextId(Date.now())),
+    };
     try {
-      const newTweetData = await postTweet(newTweet);
-      newTweetData.data.id = Math.random();
-      const newTweetsData = this.context.tweets;
-      newTweetsData.tweets[-1] = newTweetData.data;
-      this.props.setTweets(newTweetsData);
+      this.writeTweet(newTweet);
     } catch (err) {
+      console.log(err);
       this.setState({ error: err.message });
     }
     this.setState({ loading: false });
   }
 
   componentDidMount() {
+    let reference = this.props.firebase.users();
+    reference.on("value", async (snapshot) => {
+      const users = await snapshot.val();
+      this.setState({ users });
+    });
     this.getTweets();
-    const interval = setInterval(() => {
-      this.getTweets();
-    }, 10000);
-    this.setState({ interval: interval });
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
   }
 
   render() {
@@ -70,7 +83,11 @@ class MainFeed extends React.Component {
                 {this.state.error && (
                   <p className="text-white">{this.state.error}</p>
                 )}
-                <PostFeed />
+                <FirebaseContext.Consumer>
+                  {(firebase) => (
+                    <PostFeed users={this.state.users} firebase={firebase} />
+                  )}
+                </FirebaseContext.Consumer>
               </li>
             </ul>
           </Col>

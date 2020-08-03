@@ -19,7 +19,7 @@ class PostFeed extends React.Component {
           >
             <div className="d-flex justify-content-between">
               <span className="text-muted float-left">
-                {data[key].userName}
+                {this.props.users[data[key].userId].username}
               </span>
               <span className="text-muted float-right">{data[key].date}</span>
             </div>
@@ -33,8 +33,8 @@ class PostFeed extends React.Component {
   }
 
   render() {
-    if (this.context.tweets) {
-      const tweets = this.buildPostFeed(this.context.tweets.tweets);
+    if (this.context.tweets && this.props.users) {
+      const tweets = this.buildPostFeed(this.context.tweets);
       return <ul>{tweets}</ul>;
     }
     return <></>;
