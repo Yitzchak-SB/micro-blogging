@@ -32,16 +32,38 @@ class PostFeed extends React.Component {
     return result;
   }
 
+  searchData(data) {
+    const { searchTerm, searchUsers } = this.context;
+    const { users } = this.props;
+    if (searchTerm === "") return this.buildPostFeed(data);
+    if (searchUsers) {
+      const usersKeys = [];
+      for (let key in users) {
+        if (users[key].username.includes(searchTerm)) usersKeys.push(key);
+      }
+      const tweets = {};
+      for (let key in data) {
+        if (usersKeys.includes(data[key].userId)) tweets[key] = data[key];
+      }
+      return this.buildPostFeed(tweets);
+    }
+    const tweets = {};
+    for (let key in data) {
+      if (data[key].content.includes(searchTerm)) tweets[key] = data[key];
+    }
+    return this.buildPostFeed(tweets);
+  }
+
   sortData(data) {
     if (this.props.checked) {
-      return this.buildPostFeed(data);
+      return this.searchData(data);
     } else {
       const currentUserId = this.context.user.userId;
       const userTweets = {};
       for (let key in data) {
         if (data[key].userId === currentUserId) userTweets[key] = data[key];
       }
-      return this.buildPostFeed(userTweets);
+      return this.searchData(userTweets);
     }
   }
 

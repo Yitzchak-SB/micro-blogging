@@ -13,8 +13,23 @@ import "./App.css";
 class AppBase extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: null, tweets: null, checked: true };
+    this.state = {
+      user: null,
+      tweets: null,
+      checked: true,
+      searchTerm: "",
+      searchUsers: true,
+    };
   }
+
+  setSearchUsers = () => {
+    if (this.state.searchUsers) return this.setState({ searchUsers: false });
+    return this.setState({ searchUsers: true });
+  };
+
+  setSearch = (input) => {
+    this.setState({ searchTerm: input });
+  };
 
   setChecked() {
     if (this.state.checked) this.setState({ checked: false });
@@ -54,7 +69,14 @@ class AppBase extends React.Component {
         style={{ minHeight: "100vh" }}
       >
         <UserContext.Provider
-          value={{ user: this.state.user, tweets: this.state.tweets }}
+          value={{
+            user: this.state.user,
+            tweets: this.state.tweets,
+            searchTerm: this.state.searchTerm,
+            setSearch: this.setSearch,
+            searchUsers: this.state.searchUsers,
+            setSearchUsers: this.setSearchUsers,
+          }}
         >
           <Router>
             <Row>
