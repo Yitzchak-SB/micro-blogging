@@ -45,7 +45,11 @@ class SignUpBase extends React.Component {
     try {
       this.props.firebase.auth
         .signInWithPopup(this.props.firebase.googleProvider())
-        .then((result) => {
+        .then((authUser) => {
+          this.props.firebase.user(authUser.user.uid).set({
+            username: authUser.user.displayName,
+            email: authUser.user.email,
+          });
           this.props.history.push("/");
         });
     } catch (error) {

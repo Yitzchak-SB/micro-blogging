@@ -1,5 +1,7 @@
 import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
 class InputPost extends React.Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class InputPost extends React.Component {
 
   render() {
     const { checked } = this.props;
+    const overText = this.state.input.length > 140;
     return (
       <Card
         className={`border  rounded m-1 ${
@@ -33,7 +36,7 @@ class InputPost extends React.Component {
               />
             </Form.Group>
 
-            {this.state.input.length > 140 && (
+            {overText && (
               <>
                 <span
                   className="rounded float-left"
@@ -48,32 +51,17 @@ class InputPost extends React.Component {
                 </span>
               </>
             )}
-            {this.state.input.length > 140 ||
-              (this.props.loading && (
-                <Button
-                  disabled={true}
-                  inline="true"
-                  onClick={(event) => {
-                    this.props.handleOnClick(event, this.state.input);
-                    this.setState({ input: "" });
-                  }}
-                  className="float-right"
-                >
-                  Tweet
-                </Button>
-              ))}
-
-            {this.state.input.length <= 140 && !this.props.loading && (
-              <Button
-                onClick={(event) => {
-                  this.props.handleOnClick(event, this.state.input);
-                  this.setState({ input: "" });
-                }}
-                className="float-right"
-              >
-                Tweet
-              </Button>
-            )}
+            <Button
+              disabled={overText}
+              inline="true"
+              onClick={(event) => {
+                this.props.handleOnClick(event, this.state.input);
+                this.setState({ input: "" });
+              }}
+              className="float-right"
+            >
+              <FontAwesomeIcon icon={faPaperPlane} />
+            </Button>
           </Form>
         </Card.Body>
       </Card>

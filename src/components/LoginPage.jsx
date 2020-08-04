@@ -53,12 +53,7 @@ class LoginBase extends React.Component {
           <Form.Group>
             <Form.Label className="text-white">Email</Form.Label>
             <Form.Control
-              style={{
-                backgroundColor: "#15202B",
-                border: "1px solid white",
-                color: "white",
-                width: "33%",
-              }}
+              className="login-input"
               type="text"
               value={this.state.email}
               onChange={(event) => {
@@ -69,12 +64,7 @@ class LoginBase extends React.Component {
           <Form.Group>
             <Form.Label className="text-white">Password</Form.Label>
             <Form.Control
-              style={{
-                backgroundColor: "#15202B",
-                border: "1px solid white",
-                color: "white",
-                width: "33%",
-              }}
+              className="login-input"
               type="password"
               value={this.state.password}
               onChange={(event) => {

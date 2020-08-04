@@ -1,29 +1,42 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 import UserContext from "./data/UserContext";
+import LikeButton from "./LikeButton";
 
 class PostFeed extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { liked: [] };
+  }
+
   buildPostFeed(data) {
     let result = [];
     for (let key in data) {
+      const handleLike = () => {
+        if (this.state.liked.includes(key)) {
+          const newLikes = this.state.liked.filter((tweet) => tweet !== key);
+          return this.setState({ liked: newLikes });
+        }
+        this.setState((state) => {
+          return { liked: [...state.liked, key] };
+        });
+      };
+      const liked = this.state.liked.includes(key);
       const tweet = (
         <li key={data[key].id}>
           <Card
-            style={{
-              padding: 15,
-              marginTop: 15,
-              backgroundColor: "#343A40",
-              border: "none",
-              minHeight: 100,
-            }}
+            className={`${
+              liked ? "tweet-card tweet-card-liked" : "tweet-card"
+            }`}
           >
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between ">
               <span className="text-muted float-left">
                 {this.props.users[data[key].userId].username}
               </span>
               <span className="text-muted float-right">{data[key].date}</span>
             </div>
             <p className="text-white pt-5">{data[key].content}</p>
+            <LikeButton handleLike={handleLike} />
           </Card>
         </li>
       );

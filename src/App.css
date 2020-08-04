@@ -2,6 +2,25 @@ ul {
   list-style-type: none;
 }
 
+.tweet-card {
+  padding: 15px;
+  margin-top: 15px;
+  background-color: #343a40;
+  border: none;
+  min-height: 100;
+}
+
+.tweet-card-liked {
+  background-color: #e3c557;
+}
+
+.login-input {
+  background-color: #15202b;
+  border: 1px solid white;
+  color: white;
+  width: 33%;
+}
+
 .all-tweets {
   background-color: #15202b;
   color: white;
@@ -10,4 +29,21 @@ ul {
 .my-tweets {
   background-color: #d1e3bc;
   color: #15202b;
+}
+
+.like {
+  animation: spin 1s ease-in-out;
+}
+
+.like:hover {
+  color: #0069d9;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

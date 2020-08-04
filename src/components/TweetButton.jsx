@@ -1,5 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 
 const TweetButton = (props) => {
   return (
@@ -11,7 +13,7 @@ const TweetButton = (props) => {
             props.setChecked();
           }}
         >
-          My Tweets
+          <FontAwesomeIcon icon={faUser} />
         </Button>
       )}
       {!props.checked && (
@@ -21,7 +23,7 @@ const TweetButton = (props) => {
             props.setChecked();
           }}
         >
-          All Tweets
+          <FontAwesomeIcon icon={faUsers} />
         </Button>
       )}
     </>

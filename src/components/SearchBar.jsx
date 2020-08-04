@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faFileAlt,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = (props) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [input, setInput] = useState("");
   const handleOnSearch = (event) => {
     event.preventDefault();
@@ -23,7 +29,7 @@ const SearchBar = (props) => {
           }}
           type="Submit"
         >
-          Search
+          <FontAwesomeIcon icon={faSearch} />
         </Button>
         <Form.Group>
           <Form.Control
@@ -36,7 +42,11 @@ const SearchBar = (props) => {
         </Form.Group>
       </Form>
       <Button onClick={handleOnClick} type="click">
-        {checked ? "Users" : "Tweets"}
+        {checked ? (
+          <FontAwesomeIcon icon={faUsers} />
+        ) : (
+          <FontAwesomeIcon icon={faFileAlt} />
+        )}
       </Button>
     </div>
   );
