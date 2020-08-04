@@ -2,6 +2,8 @@ import React from "react";
 import { FirebaseContext } from "./Firebase";
 import { Button } from "react-bootstrap";
 import { withRouter } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 function SignOutButtonBase(props) {
   const onSignOut = (event) => {
@@ -10,7 +12,7 @@ function SignOutButtonBase(props) {
   };
   return (
     <Button type="button" onClick={onSignOut}>
-      Sign Out
+      <FontAwesomeIcon icon={faSignOutAlt} />
     </Button>
   );
 }

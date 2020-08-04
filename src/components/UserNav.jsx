@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import SignOutButton from "./SignOutButton";
 import SearchBar from "./SearchBar";
 import UserContext from "./data/UserContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faIdCard } from "@fortawesome/free-solid-svg-icons";
 
 function UserNav() {
   const location = useLocation();
@@ -18,13 +20,13 @@ function UserNav() {
           className={`p-3 ${rightPath ? "text-white" : "text-muted"}`}
           to="/"
         >
-          Home
+          <FontAwesomeIcon icon={faHome} />
         </Link>
         <Link
           className={`p-3 ${rightPath ? "text-muted" : "text-white"}`}
           to="profile"
         >
-          Profile
+          <FontAwesomeIcon icon={faIdCard} />
         </Link>
       </div>
       <UserContext.Consumer>

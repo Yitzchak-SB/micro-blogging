@@ -9,21 +9,37 @@ class PostFeed extends React.Component {
     this.state = { liked: [] };
   }
 
-  buildPostFeed(data) {
-    let result = [];
+  sortByDate(data) {
+    const newData = [];
     for (let key in data) {
+      data[key].key = key;
+      newData.push(data[key]);
+    }
+    const sortedData = newData.sort(
+      (a, b) => new Date(Date.parse(b.date) - new Date(Date.parse(a.date)))
+    );
+    return sortedData;
+  }
+
+  buildPostFeed(data) {
+    const tweets = this.sortByDate(data);
+    let result = [];
+    for (let unit in tweets) {
       const handleLike = () => {
-        if (this.state.liked.includes(key)) {
-          const newLikes = this.state.liked.filter((tweet) => tweet !== key);
+        if (this.state.liked.includes(tweets[unit].key)) {
+          const newLikes = this.state.liked.filter(
+            (item) => item !== tweets[unit].key
+          );
           return this.setState({ liked: newLikes });
         }
         this.setState((state) => {
-          return { liked: [...state.liked, key] };
+          return { liked: [...state.liked, tweets[unit].key] };
         });
       };
-      const liked = this.state.liked.includes(key);
+      const liked = this.state.liked.includes(tweets[unit].key);
+      const date = new Date(Date.parse(tweets[unit].date)).toDateString();
       const tweet = (
-        <li key={data[key].id}>
+        <li key={tweets[unit].id}>
           <Card
             className={`${
               liked ? "tweet-card tweet-card-liked" : "tweet-card"
@@ -31,11 +47,11 @@ class PostFeed extends React.Component {
           >
             <div className="d-flex justify-content-between ">
               <span className="text-muted float-left">
-                {this.props.users[data[key].userId].username}
+                {this.props.users[tweets[unit].userId].username}
               </span>
-              <span className="text-muted float-right">{data[key].date}</span>
+              <span className="text-muted float-right">{date}</span>
             </div>
-            <p className="text-white pt-5">{data[key].content}</p>
+            <p className="text-white pt-5">{tweets[unit].content}</p>
             <LikeButton handleLike={handleLike} />
           </Card>
         </li>
