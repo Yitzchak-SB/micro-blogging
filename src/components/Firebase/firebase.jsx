@@ -1,14 +1,14 @@
 import firebase from "firebase";
 
 const config = {
-  apiKey: "AIzaSyBdjPNzIsKAYFiXXl42iK8vMC772XdCJ9s",
-  authDomain: "micro-blogging-project-7c05d.firebaseapp.com",
-  databaseURL: "https://micro-blogging-project-7c05d.firebaseio.com",
-  projectId: "micro-blogging-project-7c05d",
-  storageBucket: "micro-blogging-project-7c05d.appspot.com",
-  messagingSenderId: "174201994223",
-  appId: "1:174201994223:web:4c11fdcf4fa8f11012541a",
-  measurementId: "G-RBSZKWZ78V",
+  apiKey: process.env.REACT_APP_apiKey,
+  authDomain: process.env.REACT_APP_authDomain,
+  databaseURL: process.env.REACT_APP_databaseURL,
+  projectId: process.env.REACT_APP_projectId,
+  storageBucket: process.env.REACT_APP_storageBucket,
+  messagingSenderId: process.env.REACT_APP_messagingSenderId,
+  appId: process.env.REACT_APP_appId,
+  measurementId: process.env.REACT_APP_measurementId,
 };
 
 class Firebase {
